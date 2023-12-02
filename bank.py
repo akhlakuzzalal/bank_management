@@ -17,6 +17,7 @@ class Bank:
         new_account = User(name, email, address, type)
         new_account.account_number = account_number
         self.accounts.append(new_account)
+        print(f'Account created with account number: {account_number}')
 
     def removeAccount(self, account_number):
         for account in self.accounts:
@@ -41,48 +42,21 @@ class Bank:
     def onOrOffLoanFeature(self, boolean):
         self.loan_feature = boolean
 
-    def deposit(self, account_number, amount):
-        for account in self.accounts:
-            if account.account_number == account_number:
-                account.deposit(amount)
-                self.__balance += amount
-                print("Deposit successful")
-                return
-        print("Account not found")
+    def deposit(self, amount):
+        self.__balance += amount
+        return True
         
-    def withdraw(self, account_number, amount):
-        for account in self.accounts:
-            if account.account_number == account_number:
-                account.withdraw(amount)
-                self.__balance -= amount
-                print("Withdrawal successful")
-                return
-        print("Account not found")
+    def withdraw(self, amount):
+        self.__balance -= amount
+        return True
 
-    def take_loan(self, account_number, amount):
-        for account in self.accounts:
-            if account.account_number == account_number:
-                if self.loan_feature:
-                    account.take_loan(amount)
-                    self.__loan_ammount += amount
-                    print("Loan taken")
-                    return
-                else:
-                    print("Loan feature is off")
-                    return
-        print("Account not found")
-
-    def transfer(self, sender_account_number, recipient_account_number, amount):
-        for sender in self.accounts:
-            if sender.account_number == sender_account_number:
-                for recipient in self.accounts:
-                    if recipient.account_number == recipient_account_number:
-                        sender.transfer(amount, recipient)
-                        print("Transfer successful")
-                        return
-                print("Recipient account not found")
-                return
-        print("Sender account not found")
+    def take_loan(self, amount):
+        if self.loan_feature:
+            self.__loan_ammount += amount
+            return True
+        else:
+            print("Loan feature is currently off")
+            return False
 
     def __repr__ (self):
         print("Bank Name:", self.name)
